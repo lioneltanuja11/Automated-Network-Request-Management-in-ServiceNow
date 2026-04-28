@@ -44,7 +44,65 @@ Access Control Mechanisms
  ┣ 📂 Documentation
 📸 Screenshots
 
-(Add your screenshots here — Service Catalog, Workflow, Groups, etc.)
+1. Functional Overview
+Purpose: Explains what the app does for the business.
+
+📝 Functional Overview
+The Automated Network Request System streamlines the process for employees to request network changes (Firewall, VPN, Port access).
+
+Core Variables Captured:
+
+Request Type, Justification, Device Details, and Urgency.
+
+Approval Workflow:
+
+Standard: Automatically routes to the Requester's Manager.
+
+High-Sensitivity: Routes to the Network Security Group for secondary validation.
+
+Department-Specific: Ensures correct stakeholder oversight based on the selected assignment group.
+
+2. Technical Blueprint
+Purpose: Explains how the app was built (The "Architecture").
+
+🏗️ Technical Blueprint
+System Architecture:
+
+Catalog Item: Network Request (Portal-facing).
+
+Custom Tables: >     * u_network_database: Stores historical request data.
+
+u_network_task: Manages sub-tasks for technical fulfillment.
+
+Flow Designer Logic:
+
+Triggered on Service Catalog submission.
+
+Mapping: Catalog variables are dynamically mapped to custom table fields using "Create Record" actions.
+
+Conditional Branching: Uses If/Else logic to handle Manager approvals and trigger automated email notifications.
+
+Security (ACLs):
+
+Restricted Write access to the Work Status field to ensure data integrity; only the System Flow can update the status upon approval.
+
+3. Setup Manual
+Purpose: A "How-to" guide for other developers to recreate your work.
+
+⚙️ Setup & Installation Manual
+Follow these steps to deploy this solution in a new PDI:
+
+Table Creation: Create u_network_database. Ensure columns match the captured variables.
+
+Catalog Configuration: Create the Network Request Catalog Item. Map variables to the table using the "Variable Name" field.
+
+Flow Designer: >    * Import/Build the Network Request Flow.
+
+Set the "Ask for Approval" action to dot-walk to Opened by.Manager.
+
+Access Control: Create a Record level Write ACL for your table. Add the admin or itil role.
+
+Testing: Submit a test through the Service Portal and verify the "Executions" tab in Flow Designer.
 
 🚀 How It Works
 Users raise requests through the catalog
