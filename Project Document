@@ -1,0 +1,51 @@
+Project Documentation: Automated Network Request Management
+ServiceNow Developer Portfolio | K Tanuja
+1. Functional Overview
+Goal: To modernize IT operations by automating manual network infrastructure requests.
+User Story & Experience
+•	Self-Service: Users submit requests via the Service Portal.
+•	Intelligent Forms: Mandatory fields and data validation prevent incomplete data.
+•	Automated Routing: Eliminates manual email chains for approvals.
+2.Technical Blueprint
+This section details the architecture used to map Service  portal variables to back-end structured data.
+
+Data FLOW Designer Schema
+Catalog Variable	Database Field
+(u_network_database)	Logic / Automation
+Opened on behalf of	u_requested_for	Auto-populated via Client Script
+Device Details	u_device_details	Mandatory Field Enforcement
+Status (N/A in portal)	u_work_status	Controlled by Flow Designer (Protected by ACL)
+
+3.Setup Manual (Recreation Guide)
+Developer instructions for replicating this application in a new environment.
+Step 1: Create Custom Table
+Navigate to System Definition > Tables. Name it Network Database. Add fields for Request Number (String) and Work Status (Choice).
+Step 2: Security Configuration (ACL)
+Create a Write ACL on the Work Status field. Restrict access to the admin role and uncheck "Admin Overrides" if you want it locked for everyone during testing.
+Step 3: Workflow Automation
+Build the Flow in Workflow Studio. Ensure the Ask for Approval action is set to dotwalk to the Assignment Group.Manager.
+
+4.QA Testing & Validation
+Verified the request lifecycle through rigorous end-to-end testing.
+•	Happy Path: Submitted request RITM0010013 was approved. Table status updated to 'Approved' and email sent.
+•	Rejection Path: Manager rejected request; record status correctly flipped to 'Rejected'.
+•	Access Control: Standard users received "Security Constraints" when attempting to bypass the workflow.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
